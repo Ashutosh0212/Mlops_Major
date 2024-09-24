@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/607264036408441527/80058d0437b9455695d754f88614b46b/artifacts
+end_time: 1727160979249
+entry_point_name: ''
+experiment_id: '607264036408441527'
+lifecycle_stage: active
+run_id: 80058d0437b9455695d754f88614b46b
+run_name: likeable-dog-668
+run_uuid: 80058d0437b9455695d754f88614b46b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727160971485
+status: 3
+tags: []
+user_id: gupta

@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/607264036408441527/8b87d17611444c6abc3e23261672f6ec/artifacts
+end_time: 1727160984123
+entry_point_name: ''
+experiment_id: '607264036408441527'
+lifecycle_stage: active
+run_id: 8b87d17611444c6abc3e23261672f6ec
+run_name: spiffy-steed-422
+run_uuid: 8b87d17611444c6abc3e23261672f6ec
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727160979263
+status: 3
+tags: []
+user_id: gupta

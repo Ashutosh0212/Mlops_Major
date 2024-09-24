@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/607264036408441527/7b155882ebf440bfa9a81489ba18cb41/artifacts
+end_time: 1727162500560
+entry_point_name: ''
+experiment_id: '607264036408441527'
+lifecycle_stage: active
+run_id: 7b155882ebf440bfa9a81489ba18cb41
+run_name: gaudy-bass-944
+run_uuid: 7b155882ebf440bfa9a81489ba18cb41
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727162493809
+status: 3
+tags: []
+user_id: gupta

@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/607264036408441527/b8f90791e1d94be59746309cbf5cd845/artifacts
+end_time: 1727162504537
+entry_point_name: ''
+experiment_id: '607264036408441527'
+lifecycle_stage: active
+run_id: b8f90791e1d94be59746309cbf5cd845
+run_name: bedecked-gnu-830
+run_uuid: b8f90791e1d94be59746309cbf5cd845
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727162500573
+status: 3
+tags: []
+user_id: gupta
