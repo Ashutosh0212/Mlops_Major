@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/af8c616aea1a4762a9d2bb75bb62d6ea/artifacts
+end_time: 1727764146152
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: af8c616aea1a4762a9d2bb75bb62d6ea
+run_name: aged-penguin-243
+run_uuid: af8c616aea1a4762a9d2bb75bb62d6ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727764145503
+status: 3
+tags: []
+user_id: gupta

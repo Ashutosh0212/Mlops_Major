@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/df713830fc11442dbf7feb54d0849ad9/artifacts
+end_time: 1731393745359
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: df713830fc11442dbf7feb54d0849ad9
+run_name: Random Forest
+run_uuid: df713830fc11442dbf7feb54d0849ad9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1731393728741
+status: 3
+tags: []
+user_id: gupta

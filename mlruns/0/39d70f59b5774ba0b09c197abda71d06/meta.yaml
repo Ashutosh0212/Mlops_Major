@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/39d70f59b5774ba0b09c197abda71d06/artifacts
+end_time: 1727764199292
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 39d70f59b5774ba0b09c197abda71d06
+run_name: efficient-flea-883
+run_uuid: 39d70f59b5774ba0b09c197abda71d06
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727764199247
+status: 3
+tags: []
+user_id: gupta

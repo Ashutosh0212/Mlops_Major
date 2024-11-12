@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/f20141c9e4e2484198950ef3bd5003d4/artifacts
+end_time: 1731393517921
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f20141c9e4e2484198950ef3bd5003d4
+run_name: Logistic Regression
+run_uuid: f20141c9e4e2484198950ef3bd5003d4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1731393501752
+status: 3
+tags: []
+user_id: gupta

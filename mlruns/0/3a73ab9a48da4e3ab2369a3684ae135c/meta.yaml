@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/3a73ab9a48da4e3ab2369a3684ae135c/artifacts
+end_time: 1727764199892
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 3a73ab9a48da4e3ab2369a3684ae135c
+run_name: big-duck-894
+run_uuid: 3a73ab9a48da4e3ab2369a3684ae135c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727764199310
+status: 3
+tags: []
+user_id: gupta

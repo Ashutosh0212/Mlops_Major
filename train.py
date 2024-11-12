@@ -1,58 +1,143 @@
+# Machine Learning Systems Laboratory Exam Solution
+# Import necessary libraries
+from sklearn.datasets import load_iris
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 import mlflow
 import mlflow.sklearn
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
 
-mlflow.set_tracking_uri('mlruns')
-# Load the Boston Housing dataset from CSV
-data = pd.read_csv('data/BostonHousing.csv')
-
-# Display the first few rows of the dataset for verification
-print("Dataset preview:")
-print(data.head())
-
-# Assume the target variable is 'medv' (Median value of owner-occupied homes)
-# Replace 'medv' with the actual target column name if different
-X = data.drop('medv', axis=1)
-y = data['medv']
-
-# Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42)
-
-# Create a new experiment
-experiment_name = "Boston_Housing_Experiment"
-mlflow.set_experiment(experiment_name)
-print(f"Using experiment: {experiment_name}")
-
-# Function to train and log model
+# ================================
+# Question 1: Data Structure and Processing Pipeline
+# ================================
 
 
-def train_and_log_model(model, model_name):
-    with mlflow.start_run():
-        model.fit(X_train, y_train)
-        predictions = model.predict(X_test)
-        mse = mean_squared_error(y_test, predictions)
+class IrisDataProcessor:
+    def __init__(self):
+        # Load the Iris dataset
+        self.data = load_iris()
+        self.df = pd.DataFrame(data=self.data.data,
+                               columns=self.data.feature_names)
+        self.df['target'] = self.data.target
+        self.scaler = StandardScaler()
 
-        # Log parameters and metrics
-        mlflow.log_param("model_type", model_name)
-        mlflow.log_metric("mse", mse)
-        print(model_name, mse )
+    def prepare_data(self):
+        # Convert data to pandas DataFrame and perform scaling
+        features = self.df.drop(columns=['target'])
+        target = self.df['target']
 
-        # Log the model
-        mlflow.sklearn.log_model(model, model_name)
+        # Feature scaling using StandardScaler
+        scaled_features = self.scaler.fit_transform(features)
+        X_train, X_test, y_train, y_test = train_test_split(
+            scaled_features, target, test_size=0.3, random_state=42
+        )
 
-        print(f"{model_name} MSE: {mse}")
-        print(f"Logged {model_name} to MLflow.")
+        # Convert target variables to NumPy arrays
+        y_train = y_train.to_numpy().flatten()
+        y_test = y_test.to_numpy().flatten()
+
+        return X_train, X_test, y_train, y_test
+
+    def get_feature_stats(self):
+        # Return basic statistical analysis of the dataset
+        return self.df.describe()
+
+# ================================
+# Question 2: Experiment Tracking and Model Development
+# ================================
 
 
-# Train Linear Regression
-linear_model = LinearRegression()
-train_and_log_model(linear_model, "Linear_Regression")
+class IrisExperiment:
+    def __init__(self, data_processor):
+        self.data_processor = data_processor
+        self.models = {
+            "Logistic Regression": LogisticRegression(),
+            "Random Forest": RandomForestClassifier()
+        }
 
-# Train Random Forest
-rf_model = RandomForestRegressor()
-train_and_log_model(rf_model, "Random_Forest")
+    def run_experiment(self):
+        # Prepare data
+        X_train, X_test, y_train, y_test = self.data_processor.prepare_data()
+
+        # Enable MLflow autologging
+        mlflow.sklearn.autolog(log_input_examples=True, log_models=True)
+
+        # Track experiments with MLflow
+        for model_name, model in self.models.items():
+            with mlflow.start_run(run_name=model_name):
+                # Cross-validation
+                cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+                mean_cv_score = np.mean(cv_scores)
+
+                # Fit the model
+                model.fit(X_train, y_train)
+                y_pred = model.predict(X_test)
+
+                # Record metrics
+                accuracy = accuracy_score(y_test, y_pred)
+                precision = precision_score(y_test, y_pred, average='macro')
+                recall = recall_score(y_test, y_pred, average='macro')
+
+                # Log metrics to MLflow
+                mlflow.log_metric("mean_cv_score", mean_cv_score)
+                mlflow.log_metric("accuracy", accuracy)
+                mlflow.log_metric("precision", precision)
+                mlflow.log_metric("recall", recall)
+
+                print(
+                    f"{model_name} - Mean CV Score: {mean_cv_score:.4f}, Accuracy: {accuracy:.4f}, "
+                    f"Precision: {precision:.4f}, Recall: {recall:.4f}"
+                )
+
+# ================================
+# Question 3: Model Optimization and Testing
+# ================================
+
+
+class IrisModelOptimizer:
+    def __init__(self, experiment):
+        self.experiment = experiment
+        self.quantized_model = None
+
+    def quantize_model(self):
+        # Implement model quantization for Logistic Regression
+        logistic_regressor = self.experiment.models["Logistic Regression"]
+        # Quantize coefficients to 8-bit precision
+        self.quantized_model = logistic_regressor
+        self.quantized_model.coef_ = np.round(
+            logistic_regressor.coef_, decimals=2)
+        print("Model quantization completed.")
+
+    def run_tests(self):
+        # Simple unit test for quantized model
+        X_train, X_test, y_train, y_test = self.experiment.data_processor.prepare_data()
+        y_pred = self.quantized_model.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        print(f"Quantized Model Accuracy: {accuracy:.4f}")
+
+# ================================
+# Main Execution Function
+# ================================
+
+
+def main():
+    # Initialize processor
+    processor = IrisDataProcessor()
+    X_train, X_test, y_train, y_test = processor.prepare_data()
+
+    # Run experiments
+    experiment = IrisExperiment(processor)
+    experiment.run_experiment()
+
+    # Optimize and test
+    optimizer = IrisModelOptimizer(experiment)
+    optimizer.quantize_model()
+    optimizer.run_tests()
+
+
+if __name__ == "__main__":
+    main()

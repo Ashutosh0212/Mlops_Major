@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/MLops/ML_Assg7/mlruns/0/900376f23b0c4e178d4e35c7fe436f7e/artifacts
+end_time: 1727764145487
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 900376f23b0c4e178d4e35c7fe436f7e
+run_name: defiant-wolf-966
+run_uuid: 900376f23b0c4e178d4e35c7fe436f7e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727764145414
+status: 3
+tags: []
+user_id: gupta
