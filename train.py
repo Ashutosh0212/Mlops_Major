@@ -8,8 +8,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
-import mlflow
-import mlflow.sklearn
 
 # ================================
 # Question 1: Data Structure and Processing Pipeline
@@ -63,35 +61,28 @@ class IrisExperiment:
         # Prepare data
         X_train, X_test, y_train, y_test = self.data_processor.prepare_data()
 
-        # Enable MLflow autologging
-        mlflow.sklearn.autolog(log_input_examples=True, log_models=True)
-
-        # Track experiments with MLflow
+        # Run experiments for each model
         for model_name, model in self.models.items():
-            with mlflow.start_run(run_name=model_name):
-                # Cross-validation
-                cv_scores = cross_val_score(model, X_train, y_train, cv=5)
-                mean_cv_score = np.mean(cv_scores)
+            # Perform cross-validation
+            cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+            mean_cv_score = np.mean(cv_scores)
 
-                # Fit the model
-                model.fit(X_train, y_train)
-                y_pred = model.predict(X_test)
+            # Fit the model
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
 
-                # Record metrics
-                accuracy = accuracy_score(y_test, y_pred)
-                precision = precision_score(y_test, y_pred, average='macro')
-                recall = recall_score(y_test, y_pred, average='macro')
+            # Record metrics
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred, average='macro')
+            recall = recall_score(y_test, y_pred, average='macro')
 
-                # Log metrics to MLflow
-                mlflow.log_metric("mean_cv_score", mean_cv_score)
-                mlflow.log_metric("accuracy", accuracy)
-                mlflow.log_metric("precision", precision)
-                mlflow.log_metric("recall", recall)
-
-                print(
-                    f"{model_name} - Mean CV Score: {mean_cv_score:.4f}, Accuracy: {accuracy:.4f}, "
-                    f"Precision: {precision:.4f}, Recall: {recall:.4f}"
-                )
+            # Print results
+            print(f"Model: {model_name}")
+            print(f"Mean Cross-Validation Score: {mean_cv_score:.4f}")
+            print(f"Test Accuracy: {accuracy:.4f}")
+            print(f"Test Precision: {precision:.4f}")
+            print(f"Test Recall: {recall:.4f}")
+            print("=" * 50)
 
 # ================================
 # Question 3: Model Optimization and Testing
@@ -104,20 +95,39 @@ class IrisModelOptimizer:
         self.quantized_model = None
 
     def quantize_model(self):
-        # Implement model quantization for Logistic Regression
+        # Get the original Logistic Regression model
         logistic_regressor = self.experiment.models["Logistic Regression"]
-        # Quantize coefficients to 8-bit precision
         self.quantized_model = logistic_regressor
+
+        # Print coefficients before quantization
+        print("Original Model Coefficients (Before Quantization):")
+        print(logistic_regressor.coef_)
+
+        # Quantize coefficients to 2 decimal places
         self.quantized_model.coef_ = np.round(
             logistic_regressor.coef_, decimals=2)
+
+        # Print coefficients after quantization
+        print("\nQuantized Model Coefficients (After Quantization):")
+        print(self.quantized_model.coef_)
         print("Model quantization completed.")
 
     def run_tests(self):
         # Simple unit test for quantized model
         X_train, X_test, y_train, y_test = self.experiment.data_processor.prepare_data()
         y_pred = self.quantized_model.predict(X_test)
+
+        # Calculate and print the metrics
         accuracy = accuracy_score(y_test, y_pred)
-        print(f"Quantized Model Accuracy: {accuracy:.4f}")
+        precision = precision_score(y_test, y_pred, average='macro')
+        recall = recall_score(y_test, y_pred, average='macro')
+
+        # Print unit test results
+        print("\n=== Unit Test Results for Quantized Model ===")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print("=" * 50)
 
 # ================================
 # Main Execution Function
